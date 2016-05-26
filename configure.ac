@@ -972,7 +972,7 @@ GIT_CONF_SUBST([CHARSET_LIB])
 #
 # Define HAVE_CLOCK_GETTIME=YesPlease if clock_gettime is available.
 GIT_CHECK_FUNC(clock_gettime,
-	[HAVE_CLOCK_GETTIME=YesPlease],
+	[HAVE_CLOCK_GETTIME=],
 	[HAVE_CLOCK_GETTIME=])
 GIT_CONF_SUBST([HAVE_CLOCK_GETTIME])
 
