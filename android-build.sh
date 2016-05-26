@@ -22,6 +22,7 @@ export CFLAGS="-I${SYSROOT}/usr/include \
 -I/data/local/tmp/lib/include \
 -I/data/local/tmp/lib/luajit-2.0 \
 -DNO_ICONV \
+-DNO_PERL \
 -DNO_GETTEXT \
 -UHAVE_ICONV_H \
 -UHAVE_LANGINFO_H \
@@ -39,11 +40,11 @@ export CPPFLAGS="${CFLAGS}"
 #export LDFLAGS="${LDFLAGS} -L${SYSROOT}/usr/lib -L${ANDROID_PREFIX}/lib -L/data/local/tmp/lib -L/data/local/tmp/lib/libncurses.so -Wl,--dynamic-linker=/system/bin/linker " # -L/tmp/chain/sysroot/usr/lib/libdl.so"
 export LDFLAGS="-Wl,--no-as-needed -ldl -L${SYSROOT}/usr/lib -L${ANDROID_PREFIX}/lib -L/data/local/tmp/lib " # -L/tmp/chain/sysroot/usr/lib/libdl.so"
 TERMINFO=/data/local/tmp/lib/terminfo
-export PREFIX=/data/local/tmp
-export BINDIR=/xbin
-export MANDIR=/data/local/tmp/lib/share/man
-export DATADIR=/data/local/tmp/lib/share.vim
-export DESTDIR=/data/local/tmp
+#export PREFIX=/data/local/tmp
+#export BINDIR=/xbin
+#export MANDIR=/lib/share/man
+#export DATADIR=/lib/share.git
+export DESTDIR=
 #  --exec-prefix=/data/local/tmp \
 #  "CFLAGS=${CFLAGS}" "LDFLAGS=${LDFLAGS}" \
 #make installvimbin installrtbase installmacros installspell
@@ -58,15 +59,28 @@ ac_cv_snprintf_returns_bogus=no \
 ac_cv_header_libintl_h=no \
 NO_GETTEXT=YesPlease \
 NO_ICONV=YesPlease \
+NO_PERL_MAKEMAKER=YesPlease \
 ./configure \
-  --sysconfdir=/data/local/tmp/etc \
+  --prefix=/data/local/tmp \
+  --exec-prefix=/data/local/tmp \
+  --bindir=/xbin \
+  --sbindir=/xbin \
+  --libexecdir=/xbin \
+  --sysconfdir=/etc \
+  --sharedstatedir=/etc \
+  --localstatedir=/etc \
+  --libdir=/lib \
+  --includedir=/lib/include \
+  --oldincludedir=/lib/include \
+  --datarootdir=/lib/share \
+  --datadir=/lib/share \
+  --with-gitconfig=/data/local/tmp/etc/gitconfig \
   --without-iconv \
   --with-openssl \
+  --with-perl=/usr/bin/perl \
   --with-editor=vim \
-  --libdir=/data/local/tmp/lib \
-  --includedir=/data/local/tmp/lib/include \
   --host=${CROSS_COMPILE} \
-  --prefix=${PREFIX} "$@" 
+   "$@" 
 CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" make && make install
 #ndk-build
 #   --prefix=PREFIX         install architecture-independent files in PREFIX
