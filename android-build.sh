@@ -78,10 +78,14 @@ NO_PERL_MAKEMAKER=YesPlease \
   --without-iconv \
   --with-openssl \
   --with-perl=/usr/bin/perl \
+  --with-curl \
+  --with-libpcre \
   --with-editor=vim \
   --host=${CROSS_COMPILE} \
    "$@" 
 CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" make && make install
+cd perl && /usr/bin/perl Makefile.PL PREFIX='' INSTALL_BASE='/data/local/tmp/xbin' --localedir='/data/local/tmp/share/locale'
+
 #ndk-build
 #   --prefix=PREFIX         install architecture-independent files in PREFIX
 #   --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
