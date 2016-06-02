@@ -15,78 +15,88 @@ export LD=${CROSS_PATH}-ld
 export STRIP=${CROSS_PATH}-strip
 export RANLIB=${CROSS_PATH}-ranlib
 export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
-#CFLAGS="-UHAVE_LOCALE_H --sysroot=${SYSROOT} -I${SYSROOT}/usr/include -I${ANDROID_PREFIX}/include -I${DEV_PREFIX}/android/bionic \
-export CFLAGS="-I${SYSROOT}/usr/include \
--I${ANDROID_PREFIX}/include \
--I${DEV_PREFIX}/android/bionic \
--I/data/local/tmp/lib/include \
--I/data/local/tmp/lib/luajit-2.0 \
+export CFLAGS="\
+-DNO_GETTEXT \
 -DNO_ICONV \
 -DNO_PERL \
--DNO_GETTEXT \
--UHAVE_ICONV_H \
--UHAVE_LANGINFO_H \
+-DNO_GECOS_IN_PWENT \
+-I${ANDROID_PREFIX}/include \
+-I/data/local/tmp/lib/include \
+-I${SYSROOT}/usr/include \
+-I${DEV_PREFIX}/bionic/libc/include \
+-UHAVE_CLOCK_GETTIME \
 -UHAVE_GETPWENT \
 -UHAVE_GETPWNAM \
 -UHAVE_GETPWUID  \
+-UHAVE_GETTEXT \
 -UHAVE_ICONV \
--UHAVE_NL_LANGINFO_CODESET \
+-UHAVE_ICONV_H \
+-UHAVE_LANGINFO_H \
 -UHAVE_LIBINTL_H \
 -UHAVE_LOCALE_H \
--UHAVE_GETTEXT \
--UHAVE_CLOCK_GETTIME \
- "
+-UHAVE_NL_LANGINFO_CODESET \
+"
 export CPPFLAGS="${CFLAGS}"
-#export LDFLAGS="${LDFLAGS} -L${SYSROOT}/usr/lib -L${ANDROID_PREFIX}/lib -L/data/local/tmp/lib -L/data/local/tmp/lib/libncurses.so -Wl,--dynamic-linker=/system/bin/linker " # -L/tmp/chain/sysroot/usr/lib/libdl.so"
-export LDFLAGS="-Wl,--no-as-needed -ldl -L${SYSROOT}/usr/lib -L${ANDROID_PREFIX}/lib -L/data/local/tmp/lib " # -L/tmp/chain/sysroot/usr/lib/libdl.so"
+export LDFLAGS="\
+-Wl,--no-as-needed \
+-ldl \
+-L/data/local/tmp/lib \
+-L${SYSROOT}/usr/lib \
+-L${ANDROID_PREFIX}/lib \
+" 
 TERMINFO=/data/local/tmp/lib/terminfo
-#export PREFIX=/data/local/tmp
-#export BINDIR=/xbin
-#export MANDIR=/lib/share/man
-#export DATADIR=/lib/share.git
+#--exec-prefix=/data/local/tmp \
+#--prefix=/data/local/tmp \
 export DESTDIR=
-#  --exec-prefix=/data/local/tmp \
-#  "CFLAGS=${CFLAGS}" "LDFLAGS=${LDFLAGS}" \
-#make installvimbin installrtbase installmacros installspell
-#./configure --host=arm-unknown-none --with-sysroot=${SYSROOT} --prefix=${PREFIX} "$@"
-#./configure --prefix=${PREFIX} "$@"
-#./configure --host=arm-unknown-none --with-sysroot=${SYSROOT} --prefix=${PREFIX} "$@"
-  #--with-shell=/data/local/tmp/xbin 
+export NO_PERL=1
+export NO_TCLTK=1
 make distclean
 autoreconf
 ac_cv_fread_reads_directories=no \
-ac_cv_snprintf_returns_bogus=no \
 ac_cv_header_libintl_h=no \
-NO_GETTEXT=YesPlease \
-NO_ICONV=YesPlease \
-NO_PERL_MAKEMAKER=YesPlease \
+ac_cv_snprintf_returns_bogus=no \
+ac_cv_lib_curl_Curl_ssl_init=yes \
+CURL_CONFIG=/data/local/tmp/xbin/curl-config \
+NO_GECOS_IN_PWENT=1 \
+NO_GETTEXT=1 \
+NO_ICONV=1 \
+NO_PERL_MAKEMAKER=1 \
+NO_PERL=1 \
+NO_PYTHON=1 \
+NO_TCLTK=1 \
+DESTDIR= \
+DEFAULT_GIT_TEMPLATE_DIR=/data/local/tmp/lib/share/git-core/templates \
 ./configure \
-  --prefix=/data/local/tmp \
-  --exec-prefix=/data/local/tmp \
-  --bindir=/xbin \
-  --sbindir=/xbin \
-  --libexecdir=/xbin \
-  --sysconfdir=/etc \
-  --sharedstatedir=/etc \
-  --localstatedir=/etc \
-  --libdir=/lib \
-  --includedir=/lib/include \
-  --oldincludedir=/lib/include \
-  --datarootdir=/lib/share \
-  --datadir=/lib/share \
-  --with-gitconfig=/data/local/tmp/etc/gitconfig \
-  --without-iconv \
-  --with-openssl \
-  --with-perl=/usr/bin/perl \
-  --with-curl \
-  --with-libpcre \
-  --with-editor=vim \
-  --host=${CROSS_COMPILE} \
-   "$@" 
+--bindir=/data/local/tmp/xbin \
+--datadir=/data/local/tmp/lib/share \
+--datarootdir=/daa/local/tmp/lib/share \
+--host=${CROSS_COMPILE} \
+--includedir=/data/local/tmp/lib/include \
+--libdir=/data/local/tmp/lib \
+--libexecdir=/data/local/tmp/xbin \
+--localstatedir=/data/local/tmp/etc \
+--oldincludedir=/data/local/tmp/lib/include \
+--localedir=/data/local/tmp/lib/share/locale \
+--prefix= \
+--sbindir=/data/local/tmp/xbin \
+--sharedstatedir=/data/local/tmp/etc \
+--sysconfdir=/data/local/tmp/etc \
+--mandir=/data/local/tmp/lib/share/man \
+--with-curl \
+--with-editor=vim \
+--with-expat \
+--with-gitconfig=/data/local/tmp/etc/gitconfig \
+--with-libpcre \
+--with-openssl \
+--without-iconv \
+--with-pager=view \
+ "$@" 
 CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" make && make install
-cd perl && /usr/bin/perl Makefile.PL PREFIX='' INSTALL_BASE='/data/local/tmp/xbin' --localedir='/data/local/tmp/share/locale'
-
-#ndk-build
+#cd perl && /usr/bin/perl Makefile.PL PREFIX='' INSTALL_BASE='/data/local/tmp/xbin' --localedir='/data/local/tmp/share/locale'
+#
+# --with-perl=/usr/bin/perl \
+#
+#
 #   --prefix=PREFIX         install architecture-independent files in PREFIX
 #   --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
 #   --bindir=DIR            user executables [EPREFIX/bin]
