@@ -69,7 +69,7 @@ DEFAULT_GIT_TEMPLATE_DIR=/data/local/tmp/lib/share/git-core/templates \
 ./configure \
 --bindir=/data/local/tmp/xbin \
 --datadir=/data/local/tmp/lib/share \
---datarootdir=/daa/local/tmp/lib/share \
+--datarootdir=/data/local/tmp/lib/share \
 --host=${CROSS_COMPILE} \
 --includedir=/data/local/tmp/lib/include \
 --libdir=/data/local/tmp/lib \
